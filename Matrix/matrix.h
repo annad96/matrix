@@ -63,29 +63,13 @@ class Matrix
         numCols = b.numCols;
     }
 
-    std::vector<T> operator*(const Matrix<T>& a, std::vector<T>& x)
-    {
-        std::vector<T> y = a.vec_mult(x);
-        return y;
-    }
+    std::vector<T> operator*(const Matrix<T>& a, std::vector<T>& x);
 
-    std::vector<T> operator*(std::vector<T>& x, const Matrix<T>& a)
-    {
-        std::vector<T> y = x.vec_mult(a);
-        return y;
-    }
+    std::vector<T> operator*(std::vector<T>& x, const Matrix<T>& a);
+   
+    std::vector<T> operator*(const Matrix<T>& a, const std::vector<T>& x);
 
-    std::vector<T> operator*(const Matrix<T>& a, const std::vector<T>& x)
-    {
-        std::vector<T> y = a.vec_mult(x);
-        return y;
-    }
-
-    Matrix<T> operator+(const Matrix<T>& a, const Matrix<T>& b)
-    {
-        std::vector<T> y = std::vector(a + b);
-        return y;
-    }
+    Matrix<T> operator+(const Matrix<T>& a, const Matrix<T>& b);
     
   private:
     std::vector<std::vector<double> > entries;
