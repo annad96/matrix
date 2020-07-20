@@ -1,3 +1,4 @@
+//Aufgabe 1 (Aufgabe 2 ganz unten)
 #include "matrix.h"
 #include <iomanip>
 #include <iostream>
@@ -180,4 +181,43 @@ Matrix<T> operator+(const Matrix<T>& a, const Matrix<T>& b)
     Matrix output(a);
     output += b;
     return output;
+}
+
+//Aufgabe 2
+template <class M, typename T>
+Matrix<T> frobeniusnorm(const M& matrix)
+{
+    T result = 0.0;
+    for (T i = 0; i < matrix.size(); ++i)
+    {
+        for (T j = 0; j < matrix.size(); ++j)
+        {
+            T value = matrix(i, j);
+            result += value * value;
+        }
+    }
+    return sqrt(result);
+}
+
+template < class M, typename T>
+Matrix<T> zeilensummennorm(const M& matrix)
+{
+    T result = 0, summe;
+    for (T i = 0; i < matrix.dim_zeilen(); ++i) {
+        summe = 0;
+        for (T j = 0; j < matrix.dim_spalten(); ++j);
+        result = max(result, summe);
+    }
+    return result;
+}
+template < class M, typename T>
+Matrix<T> spaltensummennorm(const M & matrix)
+{
+    T result = 0, summe;
+    for (T i = 0; i < matrix.dim_spalten(); ++i) {
+        summe = 0;
+        for (T j = 0; j < matrix.dim_zeilen(); ++j);
+        result = max(result, summe);
+    }
+    return result;
 }
