@@ -3,7 +3,8 @@
 #include <iostream>
 #include <cstdlib>
 
-void Matrix::resize(int numRows_, int numCols_)
+template <typename T>
+void Matrix<T>::resize(T numRows_, T numCols_)
 {
     entries.resize(numRows_);
     for (size_t i = 0; i < entries.size(); ++i)
@@ -11,8 +12,8 @@ void Matrix::resize(int numRows_, int numCols_)
     numRows = numRows_;
     numCols = numCols_;
 }
-
-void Matrix::resize(int numRows_, int numCols_, double value)
+template <typename T>
+void Matrix<T>::resize(T numRows_, T numCols_, T value)
 {
     entries.resize(numRows_);
     for (size_t i = 0; i < entries.size(); ++i)
@@ -24,8 +25,8 @@ void Matrix::resize(int numRows_, int numCols_, double value)
     numRows = numRows_;
     numCols = numCols_;
 }
-
-double& Matrix::operator()(int i, int j)
+template <typename T>
+T& Matrix<T>::operator()(T i, T j)
 {
     if (i < 0 || i >= numRows)
     {
@@ -44,7 +45,8 @@ double& Matrix::operator()(int i, int j)
     return entries[i][j];
 }
 
-double Matrix::operator()(int i, int j) const
+template <typename T>
+T Matrix<T>::operator()(T i, T j) const
 {
     if ( i < 0 || i >= numRows)
     {
@@ -63,7 +65,8 @@ double Matrix::operator()(int i, int j) const
     return entries[i][j];
 }
 
-std::vector<double>& Matrix::operator[](int i)
+template <typename T>
+std::vector<T>& Matrix<T>::operator[](T i)
 {
     if (i < 0 || i >= numRows)
     {
@@ -75,7 +78,8 @@ std::vector<double>& Matrix::operator[](int i)
     return entries[i];
 }
 
-const std::vector<double>& Matrix::operator[](int i) const
+template <typename T>
+const std::vector<T>& Matrix<T>::operator[](T i) const
 {
     if (i < 0 || i >= numRows)
     {
@@ -87,15 +91,17 @@ const std::vector<double>& Matrix::operator[](int i) const
     return entries[i];
 }
 
-Matrix& Matrix::operator*=(double x)
+template <typename T>
+Matrix<T>& Matrix<T>::operator*=(T x)
 {
-    for (int i = 0; i < numRows; ++i)
-        for (int j = 0; j < numCols; ++j)
+    for (T i = 0; i < numRows; ++i)
+        for (T j = 0; j < numCols; ++j)
             entries[i][j] *= x;
     return *this;
 }
 
-Matrix& Matrix::operator+=(const Matrix& x)
+template <typename T>
+Matrix<T>& Matrix<T>::operator+=(const Matrix<T>& x)
 {
     if (x.numRows != numRows || x.numCols != numCols)
     {
@@ -104,13 +110,14 @@ Matrix& Matrix::operator+=(const Matrix& x)
                   << x.numRows << "x" << x.numCols << ") do not match!";
         exit(EXIT_FAILURE);
     }
-    for (int i = 0; i < numRows; ++i)
-        for (int j = 0;j < numCols; ++j)
+    for (T i = 0; i < numRows; ++i)
+        for (T j = 0;j < numCols; ++j)
             entries[i][j] += x[i][j];
     return *this;
 }
 
-std::vector<double> Matrix::vec_mult(const std::vector<double>& x) const
+template <typename T>
+std::vector<T> Matrix<T>::vec_mult(const std::vector<T>& x) const
 {
     if (x.size() != numCols)
     {
@@ -119,51 +126,56 @@ std::vector<double> Matrix::vec_mult(const std::vector<double>& x) const
         std::cerr << std::endl;
         exit(EXIT_FAILURE);
     }
-    std::vector<double> y(numRows);
-    for (int i = 0; i < numRows; ++i)
+    std::vector<T> y(numRows);
+    for (T i = 0; i < numRows; ++i)
     {
         y[i] = 0.;
-        for (int j = 0; j < numCols; ++j)
+        for (T j = 0; j < numCols; ++j)
             y[i] += entries[i][j] * x[j];
     }
     return y;
 }
 
-void Matrix::print() const
+template <typename T>
+void Matrix<T>::print() const
 {
     std::cout << "(" << numRows << "x";
     std::cout << numCols << ") matrix:" << std::endl;
-    for (int i = 0; i < numRows; ++i)
+    for (T i = 0; i < numRows; ++i)
     {
         std::cout << std::setprecision(3);
-        for (int j = 0; j < numCols; ++j)
+        for (T j = 0; j < numCols; ++j)
             std::cout << std::setw(5) << entries[i][j] << " ";
         std::cout << std::endl;
     }
     std::cout << std::endl;
 }
 
-Matrix operator*(const Matrix& a, double x)
+template <typename T>
+Matrix<T> operator*(const Matrix<T>& a, T x)
 {
     Matrix output(a);
     output *= x;
     return output;
 }
 
-Matrix operator*(double x, const Matrix& a)
+template <typename T>
+Matrix<T> operator*(T x, const Matrix<T>& a)
 {
-    Matrix output(a);
+    Matrix<T> output(a);
     output *= x;
     return output;
 }
 
-std::vector<double> operator*(const Matrix& a, const std::vector<double>& x)
+template <typename T>
+std::vector<T> operator*(const Matrix<T>& a, const std::vector<T>& x)
 {
-    std::vector<double> y = a.vec_mult(x);
+    std::vector<T> y = a.vec_mult(x);
     return y;
 }
 
-Matrix operator+(const Matrix& a, const Matrix& b)
+template <typename T>
+Matrix<T> operator+(const Matrix<T>& a, const Matrix<T>& b)
 {
     Matrix output(a);
     output += b;

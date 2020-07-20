@@ -2,51 +2,53 @@
 #include <complex>
 #ifndef MATRIX_H
 #define MATRIX_H
+
 template <typename T>
+
 class Matrix
 {
   public:
-    void resize(int numRows_, int numCols_);
-    void resize(int numRows_, int numCols_, double value);
+    void resize(T numRows_, T numCols_);
+    void resize(T numRows_, T numCols_, T value);
     
     // access elements
-    double& operator()(int i, int j);
-    double  operator()(int i, int j) const;
-    std::vector<double>& operator[](int i);
-    const std::vector<double>& operator[](int i) const;
+    T& operator()(T i, T j);
+    T  operator()(T i, T j) const;
+    std::vector<T>& operator[](T i);
+    const std::vector<T>& operator[](T i) const;
 
     // arithmetic functions
-    Matrix& operator*=(double x);
-    Matrix& operator+=(const Matrix& b);
-    std::vector<double> vec_mult(const std::vector<double>& x) const;
+    Matrix<T>& operator*=(T x);
+    Matrix<T>& operator+=(const Matrix<T>& b);
+    std::vector<T> vec_mult(const std::vector<T>& x) const;
 
     // output
     void print() const;
-    int rows() const
+    T rows() const
     {
         return numRows;
     }
-    int cols() const
+    T cols() const
     {
         return numCols;
     }
     
-    Matrix(int numRows_, int numCols_) :
+    Matrix(T numRows_, T numCols_) :
             entries(numRows_), numRows(numRows_), numCols(numCols_)
     {
-        for (int i = 0; i < numRows_; ++i)
+        for (T i = 0; i < numRows_; ++i)
             entries[i].resize(numCols_);
     };
     
-    Matrix(int dim) : Matrix(dim,dim)
+    Matrix(T dim) : Matrix(dim,dim)
     {};
     
-    Matrix(int numRows_, int numCols_, double value)
+    Matrix(T numRows_, T numCols_, T value)
     {
         resize(numRows_,numCols_,value);
     };
     
-    Matrix(std::vector<std::vector<double> > a)
+    Matrix(std::vector<std::vector<T> > a)
     {
         entries = a;
         numRows = a.size();
@@ -56,25 +58,25 @@ class Matrix
             numCols = 0;
     }
     
-    Matrix(const Matrix& b)
+    Matrix(const Matrix<T>& b)
     {
         entries = b.entries;
         numRows = b.numRows;
         numCols = b.numCols;
     }
-
-    std::vector<T> operator*(const Matrix<T>& a, std::vector<T>& x);
-
-    std::vector<T> operator*(std::vector<T>& x, const Matrix<T>& a);
-   
-    std::vector<T> operator*(const Matrix<T>& a, const std::vector<T>& x);
-
-    Matrix<T> operator+(const Matrix<T>& a, const Matrix<T>& b);
     
   private:
-    std::vector<std::vector<double> > entries;
-    int numRows = 0;
-    int numCols = 0;
+    std::vector<std::vector<T> > entries;
+    T numRows = 0;
+    T numCols = 0;
 };
+template <typename T>
+Matrix<T> operator*(const Matrix<T>& a, T x);
+template <typename T>
+Matrix<T> operator*(T x, const Matrix<T>& a);
+template <typename T>
+std::vector<T> operator*(const Matrix<T>& a, const std::vector<T>& x);
+template <typename T>
+Matrix<T> operator+(const Matrix<T>& a, const Matrix<T>& b);
 
 #endif // !MATRIX_H
