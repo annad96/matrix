@@ -178,7 +178,7 @@ std::vector<T> operator*(const Matrix<T>& a, const std::vector<T>& x)
 template <typename T>
 Matrix<T> operator+(const Matrix<T>& a, const Matrix<T>& b)
 {
-    Matrix output(a);
+    Matrix<T> output(a);
     output += b;
     return output;
 }
@@ -199,24 +199,24 @@ Matrix<T> frobeniusnorm(const M& matrix)
     return sqrt(result);
 }
 
-template < class M, typename T>
+template <class M, typename T>
 Matrix<T> zeilensummennorm(const M& matrix)
 {
     T result = 0, summe;
-    for (T i = 0; i < matrix.dim_zeilen(); ++i) {
+    for (T i = 0; i < numRows; ++i) {
         summe = 0;
-        for (T j = 0; j < matrix.dim_spalten(); ++j);
+        for (T j = 0; j < numCols; ++j);
         result = max(result, summe);
     }
     return result;
 }
-template < class M, typename T>
+template <class M, typename T>
 Matrix<T> spaltensummennorm(const M & matrix)
 {
     T result = 0, summe;
-    for (T i = 0; i < matrix.dim_spalten(); ++i) {
+    for (T i = 0; i < numCols; ++i) {
         summe = 0;
-        for (T j = 0; j < matrix.dim_zeilen(); ++j);
+        for (T j = 0; j < numRows; ++j);
         result = max(result, summe);
     }
     return result;

@@ -34,12 +34,7 @@ class Matrix
         return numCols;
     }
 
-    template <class M>
-    Matrix<T> frobeniusnorm(const M& matrix);
-    template < class M>
-    Matrix<T> zeilensummennorm(const M& matrix);
-    template < class M>
-    Matrix<T> spaltensummennorm(const M& matrix);
+ 
 
     Matrix(T numRows_, T numCols_) :
             entries(numRows_), numRows(numRows_), numCols(numCols_)
@@ -79,8 +74,6 @@ class Matrix
     T numCols = 0;
     T max(T, T);
     T min(T, T);
-    T dim_zeilen();
-    T dim_spalten();
 };
 template <typename T>
 Matrix<T> operator*(const Matrix<T>& a, T x);
@@ -90,5 +83,12 @@ template <typename T>
 std::vector<T> operator*(const Matrix<T>& a, const std::vector<T>& x);
 template <typename T>
 Matrix<T> operator+(const Matrix<T>& a, const Matrix<T>& b);
+
+template <class M, typename T>
+Matrix<T> frobeniusnorm(const M& matrix);
+template <class M, typename T>
+Matrix<T> zeilensummennorm(const M& matrix);
+template <class M, typename T>
+Matrix<T> spaltensummennorm(const M& matrix);
 
 #endif // !MATRIX_H
